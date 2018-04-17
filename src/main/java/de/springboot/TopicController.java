@@ -1,6 +1,12 @@
 package de.springboot;
 
 
+import de.springboot.dao.NotesDaoImpl;
+import de.springboot.jg.NotesEntity;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +19,14 @@ public class TopicController {
     @Autowired
     private TopicService topicService;
 
-    @RequestMapping("/topics")
-    public List<Topic> getAllTopics() {
-
-        return new TopicService().topics;
-    }
-
     @RequestMapping("/topics/{id}")
-    public Topic getTopic(@PathVariable String id) {
-        return topicService.getTopic(id);
+    public String getTopics(@PathVariable String id) {
+
+        DataBaseMethods dataBaseMethods = new DataBaseMethods();
+        return  dataBaseMethods.getById(Integer.parseInt(id)).toString();
     }
+
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/topics")
     public void addTopic(@RequestBody Topic topic) {
